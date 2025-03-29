@@ -3,7 +3,7 @@
         <div v-for="item in itemsChickenLove" :key="item.id" class=" min-h-[300px] shadow-lg">
             <img :src="item.image" width="100%" />
             <div class="p-2">
-                <h2 class="h-[30px] block">{{ item.name }}</h2>
+                <h2 class="h-[30px] block font-bold">{{ item.name }}</h2>
                 <div class="mt-6 w-full h-[80px] overflow-x-auto">
                     <p class="w-full">
                         {{ item.info.length <= 52 ? item.info : (showFullText[item.id] ? item.info : item.info.slice(0,

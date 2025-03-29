@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mui/icons-material": "^5.15.11",
+    "axios": "^1.6.8",
     "flowbite": "^2.3.0",
     "nuxt": "^3.10.3",
     "swiper": "^11.0.6",

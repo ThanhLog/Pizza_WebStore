@@ -59,8 +59,9 @@
         </div>
         <div class="basket w-[25%] h-full border-l-2">
             <h1 class="text-center p-[10px] text-3xl">-- Your Basket --</h1>
-            <div class="h-full grid">
-                <div id="itemCart" class=" overflow-x-auto">
+            <span>Free shipping for invoices over 250,000 VND</span>
+            <div class="h-full grid" style="grid-template-rows: 3fr 1fr;">
+                <div id="itemCart" class=" overflow-x-auto h-full">
                     <div class="Empty h-[40px] bg-[#E8F4FD] pl-3" v-if="Cart.length === 0">
                         <div class="animate-cart-empty flex items-center  gap-2 font-mono">
                             <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 32 32">
@@ -79,24 +80,38 @@
                         <button @click="removeFromCart(itemCart)">Remove</button>
                     </div>
                 </div>
-                <div class="Provisional bottom-0">
-                    <button>USE VOUCHER CODE</button>
-                    <form action="Provisional">
-                        <label for="SubTotal">Sub total: </label>
-                        <span>{{ SubTotal }}</span><br />
-                        <label for="MemberDis">Member Dis: </label>
-                        <span>{{ MemberDiscount }}</span><br />
-                        <label for="PromortionDis">Promortion Dis: </label>
-                        <span>{{ PromotionDiscount }}</span><br />
-                        <label for="ShippingFee">Shipping Fee: </label>
-                        <span>{{ ShippingFee }}</span>
+                <div class="Provisional bottom-0 bg-white">
+                    <div class="px-1">
+                        <button class=" w-full border border-[#0A8020] text-[#0A8020] rounded-lg p-1">USE VOUCHER
+                            CODE</button>
+                    </div>
+                    <form action="Provisional" class="py-3">
+                        <div class="flex justify-between px-3 text-[18px]">
+                            <label for="SubTotal">Sub total: </label>
+                            <span>{{ SubTotal }},000</span>
+                        </div>
+                        <div class="flex justify-between px-3 text-[18px]">
+                            <label for="MemberDis">Member Dis: </label>
+                            <span class=" text-red-800">-{{ MemberDiscount }},000</span>
+                        </div>
+                        <div class="flex justify-between px-3 text-[18px]">
+                            <label for="PromortionDis">Promortion Dis: </label>
+                            <span>{{ PromotionDiscount }},000</span>
+                        </div>
+                        <div class="flex justify-between px-3 text-[18px]">
+                            <label for="ShippingFee">Shipping Fee: </label>
+                            <span>{{ ShippingFee }},000</span>
+                        </div>
                     </form>
-                    <button>
-                        <span>
-                            CHECK OUT
-                        </span>
-                        <span>{{ Total }}</span>
-                    </button>
+                    <div class="p-1">
+                        <button
+                            class="mt-3 w-full p-3 bg-[#0A8020] rounded-lg flex justify-between font-bold text-white">
+                            <span>
+                                CHECK OUT
+                            </span>
+                            <span>{{ Total }},000</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -149,6 +164,11 @@ export default {
     data() {
         return {
             Cart: [],
+            SubTotal: 0,
+            MemberDiscount: 0,
+            PromotionDiscount: 0,
+            ShippingFee: 22,
+            Total: 0,
             itemMenus: [
                 { id: 1, name: 'SUPER DEAL' },
                 // { id: 2, name: 'YUMMY' },
@@ -193,7 +213,12 @@ export default {
         // Thêm sản phẩm vào giỏ hàng
         addToCart(product) {
             this.Cart.push(product);
-            console.log(this.Cart.length);
+
+            // Tam tinh
+            this.SubTotal += product.price;
+
+            // Tinh lai
+            this.calculateTotal();
         },
 
         //Xóa sản phẩm
@@ -202,8 +227,19 @@ export default {
             if (index !== -1) {
                 this.Cart.splice(index, 1);
                 console.log("Item removed from cart:", item);
+                this.SubTotal -= item.price;
+                this.calculateTotal();
             }
-        }
+        },
+        calculateTotal() {
+            // Dieu kien free ship
+            if (this.SubTotal >= 250) {
+                this.ShippingFee = 0;
+            } else {
+                this.ShippingFee = 22;
+            }
+            this.Total = this.SubTotal - this.MemberDiscount - this.PromotionDiscount + this.ShippingFee;
+        },
     }
 }
 </script>
