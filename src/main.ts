@@ -5,10 +5,13 @@ import productVue from "../src/components/main/product.vue";
 import superSale from "../src/components/product/super-sale.vue";
 import "./assets/style.css";
 
-import { createRouter, createWebHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHashHistory,
+} from "vue-router";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     { path: "/", component: homeVue },
     { path: "/product", component: productVue },
