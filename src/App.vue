@@ -10,4 +10,3 @@ import menuVue from "./components/menu.vue";
         <footerVue />
 </template>
 
-<style></style>
